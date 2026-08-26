@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+
+<title>Age Calculator - Free Online Age Calculator</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    min-height:100vh;
+    background:linear-gradient(135deg,#eef4ff,#f8fbff);
+    color:#172033;
+    padding:20px;
+    transition:.3s;
+}
+
+body.dark{
+    background:linear-gradient(135deg,#101827,#172235);
+    color:#f4f7fb;
+}
+
+.container{
+    width:100%;
+    max-width:900px;
+    margin:auto;
+}
+
+header{
+    text-align:center;
+    padding:20px 10px 25px;
+}
+
+.logo{
+    width:65px;
+    height:65px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:18px;
+    background:#2563eb;
+    color:white;
+    font-size:30px;
+    box-shadow:0 10px 25px #2563eb44;
+}
+
+h1{
+    margin-top:15px;
+    font-size:34px;
+}
+
+.subtitle{
+    margin-top:8px;
+    color:#667085;
+}
+
+.dark .subtitle{
+    color:#aeb9ca;
+}
+
+.card{
+    background:white;
+    border-radius:24px;
+    padding:28px;
+    box-shadow:0 15px 50px #17203318;
+}
+
+.dark .card{
+    background:#1c293c;
+    box-shadow:0 15px 50px #0005;
+}
+
+.inputs{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border:2px solid #dce3ee;
+    border-radius:12px;
+    font-size:16px;
+    outline:none;
+    background:white;
+    color:#172033;
+}
+
+input:focus{
+    border-color:#2563eb;
+}
+
+.dark input{
+    background:#253449;
+    color:white;
+    border-color:#3a4b63;
+}
+
+.buttons{
+    display:flex;
+    gap:12px;
+    margin-top:22px;
+}
+
+button{
+    border:0;
+    border-radius:12px;
+    padding:14px 20px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:translateY(-2px);
+}
+
+.calculate{
+    flex:1;
+    background:#2563eb;
+    color:white;
+}
+
+.reset{
+    background:#e8edf5;
+    color:#172033;
+}
+
+.dark .reset{
+    background:#334155;
+    color:white;
+}
+
+.result{
+    display:none;
+    margin-top:28px;
+}
+
+.result.show{
+    display:block;
+}
+
+.result-title{
+    text-align:center;
+    margin-bottom:18px;
+    font-size:22px;
+}
+
+.age-main{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.age-box{
+    background:#eff6ff;
+    border-radius:16px;
+    padding:20px 10px;
+    text-align:center;
+}
+
+.dark .age-box{
+    background:#263b57;
+}
+
+.age-number{
+    font-size:34px;
+    font-weight:bold;
+    color:#2563eb;
+}
+
+.dark .age-number{
+    color:#70a2ff;
+}
+
+.age-label{
+    margin-top:5px;
+    color:#667085;
+}
+
+.dark .age-label{
+    color:#c1cada;
+}
+
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+    margin-top:15px;
+}
+
+.info{
+    padding:17px;
+    border:1px solid #e1e7ef;
+    border-radius:14px;
+}
+
+.dark .info{
+    border-color:#35465d;
+}
+
+.info-title{
+    font-size:13px;
+    color:#667085;
+    margin-bottom:6px;
+}
+
+.dark .info-title{
+    color:#aeb9ca;
+}
+
+.info-value{
+    font-weight:bold;
+    font-size:17px;
+}
+
+.countdown{
+    margin-top:18px;
+    padding:20px;
+    border-radius:17px;
+    background:linear-gradient(135deg,#2563eb,#4f46e5);
+    color:white;
+    text-align:center;
+}
+
+.countdown h3{
+    margin-bottom:8px;
+}
+
+.countdown-number{
+    font-size:22px;
+    font-weight:bold;
+}
+
+.actions{
+    display:flex;
+    gap:10px;
+    margin-top:18px;
+}
+
+.action{
+    flex:1;
+    background:#edf2f8;
+}
+
+.dark .action{
+    background:#334155;
+    color:white;
+}
+
+.error{
+    display:none;
+    margin-top:15px;
+    padding:12px;
+    border-radius:10px;
+    background:#fee2e2;
+    color:#b91c1c;
+    text-align:center;
+}
+
+.dark .error{
+    background:#4a2025;
+    color:#ff9a9a;
+}
+
+.theme{
+    position:fixed;
+    top:18px;
+    right:18px;
+    width:48px;
+    height:48px;
+    padding:0;
+    border-radius:50%;
+    background:white;
+    box-shadow:0 5px 20px #0002;
+}
+
+.dark .theme{
+    background:#263449;
+    color:white;
+}
+
+footer{
+    text-align:center;
+    padding:25px 10px 5px;
+    color:#667085;
+    font-size:14px;
+}
+
+.dark footer{
+    color:#aeb9ca;
+}
+
+@media(max-width:600px){
+    body{
+        padding:12px;
+    }
+
+    h1{
+        font-size:27px;
+    }
+
+    .card{
+        padding:18px;
+        border-radius:18px;
+    }
+
+    .inputs{
+        grid-template-columns:1fr;
+        gap:14px;
+    }
+
+    .age-main{
+        gap:7px;
+    }
+
+    .age-box{
+        padding:15px 5px;
+    }
+
+    .age-number{
+        font-size:27px;
+    }
+
+    .info-grid{
+        grid-template-columns:1fr;
+    }
+
+    .buttons,
+    .actions{
+        flex-direction:column;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<button class="theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
+
+<div class="container">
+
+<header>
+    <div class="logo">🎂</div>
+    <h1>Age Calculator</h1>
+    <p class="subtitle">
+        Calculate your exact age instantly
+    </p>
+</header>
+
+<div class="card">
+
+    <div class="inputs">
+
+        <div>
+            <label for="birthDate">Date of Birth</label>
+            <input type="date" id="birthDate">
+        </div>
+
+        <div>
+            <label for="todayDate">Calculate Age On</label>
+            <input type="date" id="todayDate">
+        </div>
+
+    </div>
+
+    <div class="buttons">
+        <button class="calculate" onclick="calculateAge()">
+            Calculate Age
+        </button>
+
+        <button class="reset" onclick="resetCalculator()">
+            Reset
+        </button>
+    </div>
+
+    <div class="error" id="error"></div>
+
+    <div class="result" id="result">
+
+        <div class="result-title">
+            Your Exact Age
+        </div>
+
+        <div class="age-main">
+
+            <div class="age-box">
+                <div class="age-number" id="years">0</div>
+                <div class="age-label">Years</div>
+            </div>
+
+            <div class="age-box">
+                <div class="age-number" id="months">0</div>
+                <div class="age-label">Months</div>
+            </div>
+
+            <div class="age-box">
+                <div class="age-number" id="days">0</div>
+                <div class="age-label">Days</div>
+            </div>
+
+        </div>
+
+        <div class="info-grid">
+
+            <div class="info">
+                <div class="info-title">Total Months</div>
+                <div class="info-value" id="totalMonths">0</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Total Weeks</div>
+                <div class="info-value" id="totalWeeks">0</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Total Days</div>
+                <div class="info-value" id="totalDays">0</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Total Hours</div>
+                <div class="info-value" id="totalHours">0</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Day of Birth</div>
+                <div class="info-value" id="birthDay">-</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Zodiac Sign</div>
+                <div class="info-value" id="zodiac">-</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Next Birthday</div>
+                <div class="info-value" id="nextBirthday">-</div>
+            </div>
+
+            <div class="info">
+                <div class="info-title">Birthday Age</div>
+                <div class="info-value" id="nextAge">-</div>
+            </div>
+
+        </div>
+
+        <div class="countdown">
+            <h3>🎉 Next Birthday Countdown</h3>
+            <div class="countdown-number" id="countdown">
+                -
+            </div>
+        </div>
+
+        <div class="actions">
+            <button class="action" onclick="copyResult()">
+                📋 Copy Result
+            </button>
+
+            <button class="action" onclick="shareResult()">
+                📤 Share
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    © 2026 Age Calculator • Free & Offline
+</footer>
+
+</div>
+
+<script>
+
+const birthInput = document.getElementById("birthDate");
+const todayInput = document.getElementById("todayDate");
+
+const now = new Date();
+
+function formatDateInput(date){
+    const y = date.getFullYear();
+    const m = String(date.getMonth()+1).padStart(2,"0");
+    const d = String(date.getDate()).padStart(2,"0");
+    return `${y}-${m}-${d}`;
+}
+
+todayInput.value = formatDateInput(now);
+todayInput.max = formatDateInput(now);
+
+function parseDate(value){
+    const [y,m,d] = value.split("-").map(Number);
+    return new Date(y,m-1,d);
+}
+
+function daysInMonth(year,month){
+    return new Date(year,month+1,0).getDate();
+}
+
+function calculateAge(){
+
+    const birthValue = birthInput.value;
+    const todayValue = todayInput.value;
+
+    const error = document.getElementById("error");
+    const result = document.getElementById("result");
+
+    error.style.display = "none";
+
+    if(!birthValue || !todayValue){
+        showError("Please select both dates.");
+        return;
+    }
+
+    const birth = parseDate(birthValue);
+    const today = parseDate(todayValue);
+
+    if(birth > today){
+        showError("Date of birth cannot be in the future.");
+        return;
+    }
+
+    let years = today.getFullYear() - birth.getFullYear();
+    let months = today.getMonth() - birth.getMonth();
+    let days = today.getDate() - birth.getDate();
+
+    if(days < 0){
+        months--;
+
+        const previousMonth =
+            new Date(today.getFullYear(), today.getMonth(), 0);
+
+        days += previousMonth.getDate();
+    }
+
+    if(months < 0){
+        years--;
+        months += 12;
+    }
+
+    const milliseconds = today - birth;
+    const totalDays = Math.floor(
+        milliseconds / (1000 * 60 * 60 * 24)
+    );
+
+    const totalWeeks = Math.floor(totalDays / 7);
+    const totalHours = totalDays * 24;
+    const totalMonths = years * 12 + months;
+
+    document.getElementById("years").textContent = years;
+    document.getElementById("months").textContent = months;
+    document.getElementById("days").textContent = days;
+
+    document.getElementById("totalMonths").textContent =
+        totalMonths.toLocaleString();
+
+    document.getElementById("totalWeeks").textContent =
+        totalWeeks.toLocaleString();
+
+    document.getElementById("totalDays").textContent =
+        totalDays.toLocaleString();
+
+    document.getElementById("totalHours").textContent =
+        totalHours.toLocaleString();
+
+    const weekday = birth.toLocaleDateString("en-US",{
+        weekday:"long"
+    });
+
+    document.getElementById("birthDay").textContent = weekday;
+
+    document.getElementById("zodiac").textContent =
+        getZodiac(birth.getMonth()+1,birth.getDate());
+
+    const next = getNextBirthday(birth,today);
+
+    document.getElementById("nextBirthday").textContent =
+        next.date.toLocaleDateString("en-US",{
+            day:"numeric",
+            month:"long",
+            year:"numeric"
+        });
+
+    document.getElementById("nextAge").textContent =
+        next.age + " years old";
+
+    updateCountdown(next.date);
+
+    result.classList.add("show");
+}
+
+function showError(message){
+    const error = document.getElementById("error");
+    error.textContent = message;
+    error.style.display = "block";
+}
+
+function getNextBirthday(birth,today){
+
+    let year = today.getFullYear();
+
+    let next = new Date(
+        year,
+        birth.getMonth(),
+        birth.getDate()
+    );
+
+    // Handle Feb 29 birthdays in non-leap years
+    if(
+        birth.getMonth() === 1 &&
+        birth.getDate() === 29 &&
+        next.getDate() !== 29
+    ){
+        next = new Date(year,1,28);
+    }
+
+    if(next < today){
+        year++;
+
+        next = new Date(
+            year,
+            birth.getMonth(),
+            birth.getDate()
+        );
+
+        if(
+            birth.getMonth() === 1 &&
+            birth.getDate() === 29 &&
+            next.getDate() !== 29
+        ){
+            next = new Date(year,1,28);
+        }
+    }
+
+    const age = next.getFullYear() - birth.getFullYear();
+
+    return {
+        date: next,
+        age: age
+    };
+}
+
+function updateCountdown(nextDate){
+
+    const today = parseDate(todayInput.value);
+
+    let difference = nextDate - today;
+
+    if(difference < 0){
+        difference = 0;
+    }
+
+    const days = Math.ceil(
+        difference / (1000*60*60*24)
+    );
+
+    document.getElementById("countdown").textContent =
+        days + (days === 1 ? " day" : " days") +
+        " remaining 🎂";
+}
+
+function getZodiac(month,day){
+
+    if((month===3 && day>=21)||(month===4 && day<=19))
+        return "Aries ♈";
+
+    if((month===4 && day>=20)||(month===5 && day<=20))
+        return "Taurus ♉";
+
+    if((month===5 && day>=21)||(month===6 && day<=20))
+        return "Gemini ♊";
+
+    if((month===6 && day>=21)||(month===7 && day<=22))
+        return "Cancer ♋";
+
+    if((month===7 && day>=23)||(month===8 && day<=22))
+        return "Leo ♌";
+
+    if((month===8 && day>=23)||(month===9 && day<=22))
+        return "Virgo ♍";
+
+    if((month===9 && day>=23)||(month===10 && day<=22))
+        return "Libra ♎";
+
+    if((month===10 && day>=23)||(month===11 && day<=21))
+        return "Scorpio ♏";
+
+    if((month===11 && day>=22)||(month===12 && day<=21))
+        return "Sagittarius ♐";
+
+    if((month===12 && day>=22)||(month===1 && day<=19))
+        return "Capricorn ♑";
+
+    if((month===1 && day>=20)||(month===2 && day<=18))
+        return "Aquarius ♒";
+
+    return "Pisces ♓";
+}
+
+function resetCalculator(){
+
+    birthInput.value = "";
+    todayInput.value = formatDateInput(new Date());
+
+    document.getElementById("result").classList.remove("show");
+
+    document.getElementById("error").style.display = "none";
+}
+
+function copyResult(){
+
+    if(!document.getElementById("result").classList.contains("show")){
+        showError("Please calculate your age first.");
+        return;
+    }
+
+    const text =
+`Age Calculator Result
+
+Exact Age: ${years.textContent} Years, ${months.textContent} Months, ${days.textContent} Days
+Total Months: ${totalMonths.textContent}
+Total Weeks: ${totalWeeks.textContent}
+Total Days: ${totalDays.textContent}
+Total Hours: ${totalHours.textContent}
+Day of Birth: ${birthDay.textContent}
+Zodiac Sign: ${zodiac.textContent}
+Next Birthday: ${nextBirthday.textContent}
+Birthday Age: ${nextAge.textContent}
+`;
+
+    navigator.clipboard.writeText(text)
+        .then(()=>{
+            alert("Result copied successfully!");
+        })
+        .catch(()=>{
+            alert("Copy is not supported on this browser.");
+        });
+}
+
+function shareResult(){
+
+    if(!document.getElementById("result").classList.contains("show")){
+        showError("Please calculate your age first.");
+        return;
+    }
+
+    const text =
+`My exact age is ${years.textContent} years, ${months.textContent} months and ${days.textContent} days.
+Next birthday: ${nextBirthday.textContent}.`;
+
+    if(navigator.share){
+
+        navigator.share({
+            title:"Age Calculator Result",
+            text:text
+        });
+
+    }else{
+
+        navigator.clipboard.writeText(text);
+
+        alert(
+            "Sharing is not supported here. Result copied instead!"
+        );
+    }
+}
+
+function toggleTheme(){
+
+    document.body.classList.toggle("dark");
+
+    const dark =
+        document.body.classList.contains("dark");
+
+    document.getElementById("themeBtn").textContent =
+        dark ? "☀️" : "🌙";
+
+    localStorage.setItem(
+        "ageCalculatorDark",
+        dark ? "1" : "0"
+    );
+}
+
+if(localStorage.getItem("ageCalculatorDark")==="1"){
+    document.body.classList.add("dark");
+    document.getElementById("themeBtn").textContent="☀️";
+}
+
+</script>
+
+</body>
+</html>
